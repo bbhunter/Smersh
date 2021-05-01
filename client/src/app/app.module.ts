@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -62,8 +61,6 @@ import { ClientsService } from './services/clients.service';
 import { ClientsListComponent } from 'src/app/components/clients/clientsList.component';
 import { ClientsEditComponent } from 'src/app/components/clients/clientsEdit.component';
 import { ClientsCreateComponent } from 'src/app/components/clients/clientsCreate.component';
-import { ClientEditComponent } from './components/client-edit/client-edit.component';
-import { ClientCreateComponent } from './components/client-create/client-create.component';
 import { VulnTypesService } from './services/vuln-types.service';
 import { HostsVulnsService } from './services/hosts-vulns.service';
 import { EditVulnWithStateComponent } from './components/edit-vuln-with-state/edit-vuln-with-state.component';
