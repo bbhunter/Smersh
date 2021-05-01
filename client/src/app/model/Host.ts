@@ -1,6 +1,7 @@
 import {
   AbstractModelAPI,
   AbstractModelApplication,
+  AbstractNormalizerApplication,
   AbstractSerializerApplication,
   ObjectFromAPIInterface,
 } from 'src/app/model/abstract';
@@ -14,6 +15,10 @@ interface HostFromAPIInterface extends ObjectFromAPIInterface {
 
 export class HostSerializerApplication extends AbstractSerializerApplication {
   protected model = HostModelApplication;
+}
+
+export class HostNormalizerApplication extends AbstractNormalizerApplication {
+  protected model = HostModelAPI;
 }
 
 export class HostModelApplication extends AbstractModelApplication {
@@ -33,15 +38,11 @@ export class HostModelApplication extends AbstractModelApplication {
 
 class HostModelAPI extends AbstractModelAPI {
   name: string;
-  hostVulns: string[];
-  mission: string;
   technology: string;
 
   constructor(props: HostModelApplication) {
     super(props);
     this.name = props.name;
-    this.hostVulns = props.hostVulns;
-    this.mission = props.mission;
     this.technology = props.technology;
   }
 }

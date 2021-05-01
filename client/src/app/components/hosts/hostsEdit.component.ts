@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { GenericEditComponent } from 'src/app/components/generic/form/generic-edit.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Input, Name } from 'src/app/form/Input';
+import { Input, Name, TextInput } from 'src/app/form/Input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HostRouter } from 'src/app/router/HostRouter';
 import { HostsService } from 'src/app/services/hosts.service';
@@ -14,7 +14,10 @@ import { HostsService } from 'src/app/services/hosts.service';
 export class HostsEditComponent extends GenericEditComponent {
   public singularResource = 'host';
   public routerHelper = HostRouter;
-  public inputs: Input[] = [new Name()];
+  public inputs: Input[] = [
+    new Name(),
+    new TextInput({ name: 'technology', label: 'Technology' }),
+  ];
 
   constructor(
     protected service: HostsService,
