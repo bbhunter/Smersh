@@ -3,8 +3,9 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VulnsTranslationService } from '../../services/vulns-translation.service';
 import { VulnRouter } from 'src/app/router/VulnRouter';
-import {VulnsService} from "src/app/services/vulns.service";
-import {Locale} from "src/app/storage/Locale";
+import { VulnsService } from 'src/app/services/vulns.service';
+import { Locale } from 'src/app/storage/Locale';
+import { VulnModelApplication } from 'src/app/model/Vuln';
 
 @Component({
   selector: 'app-vulns-edit',
@@ -34,16 +35,18 @@ export class VulnsEditComponent implements OnInit {
   }
 
   loadVuln(id): void {
-    this.vulnsService.getDataById(this.id).subscribe((vuln) => {
-      const translation = vuln.translations[new Locale().get()];
-      this.translationId = translation.id;
-      this.name = translation.name;
-      this.description = translation.description;
-      this.remediation = translation.remediation;
-    });
+    this.vulnsService
+      .getDataById(this.id)
+      .then((vuln: VulnModelApplication) => {
+        const translation = vuln.translations[new Locale().get()];
+        this.translationId = translation.id;
+        this.name = translation.name;
+        this.description = translation.description;
+        this.remediation = translation.remediation;
+      });
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit(form: NgForm): void {
     this.vulnsTranslationsService
       .update(this.translationId, {
         ...form.value,

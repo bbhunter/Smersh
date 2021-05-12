@@ -34,7 +34,7 @@ export class EditVulnWithStateComponent implements OnInit {
   }
 
   loadVuln(): void {
-    this.hostvulnService.getDataById(this.id).subscribe((hostVuln) => {
+    this.hostvulnService.getDataById(this.id).then((hostVuln: any) => {
       this.host = hostVuln.host;
       this.currentState = hostVuln.currentState;
       this.vulnName = hostVuln.vuln.name;
@@ -43,7 +43,7 @@ export class EditVulnWithStateComponent implements OnInit {
   }
 
   onSubmit(form: NgForm): void {
-    this.hostvulnService.update(this.id, form.value).subscribe(
+    this.hostvulnService.update(this.id, form.value).then(
       () => {
         this.openSnackBar('Host updated');
         this.router.navigateByUrl(MissionRouter.redirectToList());

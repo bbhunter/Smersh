@@ -5,7 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/login/login.component';
-import { MissionsListComponent } from 'src/app/components/missions/missionsList.component';
+import {
+  MissionsCreateComponent,
+  MissionsEditComponent,
+  MissionsListComponent,
+} from 'src/app/components/missions';
 import { ErrorsComponent } from './components/errors/errors.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -32,11 +36,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { UsersListComponent } from 'src/app/components/users/usersList.component';
+import {
+  UsersCreateComponent,
+  UsersEditComponent,
+  UsersListComponent,
+} from 'src/app/components/users';
 import { UserSingleComponent } from './components/user-single/user-single.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
-import { MissionCreateComponent } from './components/mission-create/mission-create.component';
-import { UserCreateComponent } from './components/user-create/user-create.component';
 
 // Services
 import { UsersService } from './services/users.service';
@@ -44,9 +50,7 @@ import { MissionsService } from './services/missions.service';
 import { TypesService } from './services/types.service';
 import { UploadsService } from './services/uploads.service';
 import { HostsService } from './services/hosts.service';
-import { MissionEditComponent } from './components/mission-edit/mission-edit.component';
 import { MissionMyComponent } from './components/mission-my/mission-my.component';
-import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { VulnsListComponent } from 'src/app/components/vulns/vulnsList.component';
 import { VulnsCreateComponent } from './components/vulns-create/vulns-create.component';
 import { VulnsEditComponent } from './components/vulns-edit/vulns-edit.component';
@@ -85,18 +89,18 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     AppComponent,
     GenericListComponent,
     LoginComponent,
+    MissionsCreateComponent,
+    MissionsEditComponent,
     MissionsListComponent,
     ErrorsComponent,
     MissionSingleComponent,
     SideBarComponent,
+    UsersCreateComponent,
+    UsersEditComponent,
     UsersListComponent,
     UserSingleComponent,
     HomepageComponent,
-    UserCreateComponent,
-    MissionCreateComponent,
-    MissionEditComponent,
     MissionMyComponent,
-    UserEditComponent,
     VulnsListComponent,
     VulnsCreateComponent,
     VulnsEditComponent,

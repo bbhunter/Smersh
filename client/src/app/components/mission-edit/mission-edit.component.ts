@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MissionRouter } from 'src/app/router/MissionRouter';
 import { UserModelApplication } from 'src/app/model/User';
 import { AbstractTypeModelApplication } from 'src/app/model/AbstractType';
+import { MissionModelApplication } from 'src/app/model/Mission';
 
 @Component({
   selector: 'app-mission-edit',
@@ -21,7 +22,7 @@ export class MissionEditComponent implements OnInit {
   userForm = new FormControl();
   public types = [];
   selected = [];
-  selected_type = [];
+  selected_type = '';
   selectedType: any;
   public path_to_codi: any;
   selectedUsers: any;
@@ -50,7 +51,7 @@ export class MissionEditComponent implements OnInit {
     });
   }
 
-  openSnackBar(message) {
+  openSnackBar(message): void {
     this._snackBar.open(message, '', {
       duration: this.durationInSeconds * 1000,
     });
@@ -76,22 +77,24 @@ export class MissionEditComponent implements OnInit {
 
   loadMissions(id): void {
     this.mission = [];
-    this.missionService.getDataById(this.id).subscribe((events) => {
-      this.mission = events;
-      this.users = events['users'];
-      this.hosts = events['hosts'];
-      this.selected_type = events.missionType;
-      this.nmapChecked = events.nmap;
-      this.selected_type = this.mission.missionType['@id'];
+    this.missionService
+      .getDataById(this.id)
+      .then((events: MissionModelApplication) => {
+        this.mission = events;
+        this.users = events.users;
+        this.hosts = events.hosts;
+        this.selected_type = events.type;
+        this.nmapChecked = events.nmap;
+        this.selected_type = this.mission.missionType['@id'];
 
-      const id_users = [];
-      for (const i in this.users) {
-        if (this.users.hasOwnProperty(i)) {
-          id_users.push(this.users[i]['@id']);
+        const id_users = [];
+        for (const i in this.users) {
+          if (this.users.hasOwnProperty(i)) {
+            id_users.push(this.users[i]['@id']);
+          }
         }
-      }
-      this.selected = id_users;
-    });
+        this.selected = id_users;
+      });
   }
 
   loadTypes(): void {
@@ -113,19 +116,17 @@ export class MissionEditComponent implements OnInit {
         nmap: this.nmapChecked,
         nessus: this.nessusChecked,
       })
-      .subscribe(
-        () => {
-          this.openSnackBar('Mission edited');
-          this.router.navigateByUrl(
-            MissionRouter.redirectToShow(this.mission.id)
-          );
-        },
-        (err) => {
-          if (err.status === 400) {
-            this.openSnackBar('Error : ' + err.error['hydra:description']);
-          }
+      .then(() => {
+        this.openSnackBar('Mission edited');
+        this.router.navigateByUrl(
+          MissionRouter.redirectToShow(this.mission.id)
+        );
+      })
+      .catch((err) => {
+        if (err.status === 400) {
+          this.openSnackBar('Error : ' + err.error['hydra:description']);
         }
-      );
+      });
   }
 
   toto(value): void {

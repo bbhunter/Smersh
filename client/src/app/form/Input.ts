@@ -15,6 +15,16 @@ export class TextInput extends Input {
   }
 }
 
+export class Username extends TextInput {
+  constructor() {
+    super({
+      label: 'Username',
+      name: 'username',
+      placeholder: 'Ex : Bob',
+    });
+  }
+}
+
 export class Name extends TextInput {
   constructor() {
     super({

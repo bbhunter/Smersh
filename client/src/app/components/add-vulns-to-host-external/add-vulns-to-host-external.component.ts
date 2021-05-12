@@ -50,7 +50,7 @@ export class AddVulnsToHostExternalComponent implements OnInit {
     this.missionId = this.activatedRoute.snapshot.params.id;
     this.hostsService
       .getDataById(this.activatedRoute.snapshot.params.targetHost)
-      .subscribe((host) => (this.host = host));
+      .then((host: HostModelApplication) => (this.host = host));
     this.loadVulns();
     this.loadImpact();
   }
@@ -90,7 +90,7 @@ export class AddVulnsToHostExternalComponent implements OnInit {
         impact: this.selectedImpact,
         currentState: this.currentStateUser,
       })
-      .subscribe(
+      .then(
         () => {
           this.openSnackBar('vulnerabilitie added');
           this.router.navigateByUrl(

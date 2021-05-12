@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../services/users.service';
 import { Router } from '@angular/router';
-import {MissionRouter} from "src/app/router/MissionRouter";
+import { MissionRouter } from 'src/app/router/MissionRouter';
+import { UserModelApplication } from 'src/app/model/User';
 
 @Component({
   selector: 'app-mission-my',
@@ -23,9 +24,11 @@ export class MissionMyComponent implements OnInit {
     const decode = atob(token.split('.')[1]);
     const id = JSON.parse(decode).user.split('/').pop();
     this.roles = JSON.parse(decode).roles;
-    this.usersServices.getDataById(id).subscribe((res) => {
-      this.missions = res['missions'];
-    });
+    this.usersServices
+      .getDataById(id)
+      .then(({ missions }: UserModelApplication) => {
+        this.missions = missions;
+      });
   }
 
   editMission(id): void {

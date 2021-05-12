@@ -6,7 +6,7 @@ import {
   ObjectFromAPIInterface,
 } from 'src/app/model/abstract';
 
-interface HostFromAPIInterface extends ObjectFromAPIInterface {
+export interface HostFromAPIInterface extends ObjectFromAPIInterface {
   name: string;
   hostVulns: string[];
   mission: string;
@@ -23,7 +23,7 @@ export class HostNormalizerApplication extends AbstractNormalizerApplication {
 
 export class HostModelApplication extends AbstractModelApplication {
   name: string;
-  hostVulns: string[];
+  hostVulns: any[];
   mission: string;
   technology: string;
 

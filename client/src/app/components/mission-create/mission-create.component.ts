@@ -103,7 +103,7 @@ export class MissionCreateComponent implements OnInit {
         nmapFiler: false,
         nessusFiler: false,
       })
-      .subscribe(
+      .then(
         () => {
           this.openSnackBar('Vuln added');
           this.router.navigateByUrl(MissionRouter.redirectToList());

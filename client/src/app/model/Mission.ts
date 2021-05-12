@@ -4,6 +4,11 @@ import {
   AbstractSerializerApplication,
   ObjectFromAPIInterface,
 } from 'src/app/model/abstract';
+import {
+  HostFromAPIInterface,
+  HostModelApplication,
+  HostSerializerApplication,
+} from 'src/app/model/Host';
 
 interface MissionFromAPIInterface extends ObjectFromAPIInterface {
   name: string;
@@ -11,7 +16,7 @@ interface MissionFromAPIInterface extends ObjectFromAPIInterface {
   pathToCodi: string;
   EndDate: string;
   users: string[];
-  hosts: string[];
+  hosts: HostFromAPIInterface[];
   nmap: boolean;
   nessus: boolean;
   nmapFiler: boolean;
@@ -34,7 +39,7 @@ export class MissionModelApplication extends AbstractModelApplication {
   };
   pathToCodi: string;
   users: string[];
-  hosts: string[];
+  hosts: HostModelApplication[];
   nmap: boolean;
   nessus: boolean;
   filer: {
@@ -55,7 +60,9 @@ export class MissionModelApplication extends AbstractModelApplication {
     };
     this.pathToCodi = props.pathToCodi;
     this.users = props.users;
-    this.hosts = props.hosts;
+    this.hosts = new HostSerializerApplication().serializeMany(
+      props?.hosts ?? []
+    ) as HostModelApplication[];
     this.nmap = props.nmap;
     this.nessus = props.nessus;
     this.filer = {
@@ -92,7 +99,7 @@ class MissionModelAPI extends AbstractModelAPI {
     this.EndDate = props.period.stop.toISOString();
     this.pathToCodi = props.pathToCodi;
     this.users = props.users;
-    this.hosts = props.hosts;
+    this.hosts = props.hosts.map(({ ['@id']: id }) => id);
     this.nmap = props.nmap;
     this.nessus = props.nessus;
     this.nmapFiler = props.filer.nmap;

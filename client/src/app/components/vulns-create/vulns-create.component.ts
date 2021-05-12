@@ -69,7 +69,7 @@ export class VulnsCreateComponent implements OnInit {
         vulnType: this.selectedType,
         impact: this.selectedImpact,
       })
-      .subscribe(
+      .then(
         () => {
           this.openSnackBar('Vuln added');
           this.router.navigateByUrl(VulnRouter.redirectToList());

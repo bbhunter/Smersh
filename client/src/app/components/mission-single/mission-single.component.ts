@@ -18,6 +18,7 @@ import { HostRouter } from 'src/app/router/HostRouter';
 import { MissionRouter } from 'src/app/router/MissionRouter';
 import { CRITICAL, HIGH, LOW, MEDIUM } from 'src/app/model/Impact';
 import { ConfigService } from 'src/app/services/configService';
+import { MissionModelApplication } from 'src/app/model/Mission';
 
 function loadFile(url, callback) {
   PizZipUtils.getBinaryContent(url, callback);
@@ -68,12 +69,12 @@ export class MissionSingleComponent implements OnInit {
   done(host): void {
     const idHost = host['@id'].split('/').pop();
     if (host.checked === false) {
-      this.hostsService.update(idHost, { checked: true }).subscribe(() => {
+      this.hostsService.update(idHost, { checked: true }).then(() => {
         this.openSnackBar(host.name + ' updated To True ');
         this.ngOnInit();
       });
     } else {
-      this.hostsService.update(idHost, { checked: false }).subscribe(() => {
+      this.hostsService.update(idHost, { checked: false }).then(() => {
         this.openSnackBar(host.name + ' updated To False ');
         this.ngOnInit();
       });
@@ -95,7 +96,7 @@ export class MissionSingleComponent implements OnInit {
   }
 
   editStep(id: string, form: NgForm): void {
-    this.stepsService.update(id, form.value).subscribe(
+    this.stepsService.update(id, form.value).then(
       () => {
         this.openSnackBar('step has been successfully updated'),
           this.ngOnInit();
@@ -109,15 +110,11 @@ export class MissionSingleComponent implements OnInit {
   }
 
   nmapUpdate(isChecked: boolean): void {
-    this.missionsService
-      .update(this.missionId, { nmap: isChecked })
-      .subscribe();
+    this.missionsService.update(this.missionId, { nmap: isChecked }).then();
   }
 
   nessusUpdate(isChecked: boolean): void {
-    this.missionsService
-      .update(this.missionId, { nessus: isChecked })
-      .subscribe();
+    this.missionsService.update(this.missionId, { nessus: isChecked }).then();
   }
 
   openSnackBar(message: string): void {
@@ -184,35 +181,37 @@ export class MissionSingleComponent implements OnInit {
   }
 
   loadData(id: string): void {
-    this.missionsService.getDataById(id).subscribe((mission) => {
-      this.mission = mission;
-      this.missionName = mission.name;
-      this.hosts = mission.hosts.map((host) => ({
-        ...host,
-        vulns: host.hostVulns.map((hostVuln) => ({
-          ...hostVuln.vuln,
-          impact: {
-            ...hostVuln.impact,
-            color: this.getImpactColor(hostVuln.impact.name),
-          },
-          linked: hostVuln.id,
-          ...(hostVuln.vuln.translations[this.currentLocal] ?? {}),
-          translate: hostVuln.vuln.translations[this.currentLocal] ?? {},
-        })),
-      }));
+    this.missionsService
+      .getDataById(id)
+      .then((mission: MissionModelApplication) => {
+        this.mission = mission;
+        this.missionName = mission.name;
+        this.hosts = mission.hosts.map((host) => ({
+          ...host,
+          vulns: host.hostVulns.map((hostVuln) => ({
+            ...hostVuln.vuln,
+            impact: {
+              ...hostVuln.impact,
+              color: this.getImpactColor(hostVuln.impact.name),
+            },
+            linked: hostVuln.id,
+            ...(hostVuln.vuln.translations[this.currentLocal] ?? {}),
+            translate: hostVuln.vuln.translations[this.currentLocal] ?? {},
+          })),
+        }));
 
-      this.users = mission.users;
-      this.creds = mission.credentials;
-      this.clients = mission.clients;
-      this.steps = mission.steps;
-      this.nmap = mission.nmap;
-      this.nessus = mission.nessus;
-      this.id = mission.id;
-    });
+        this.users = mission.users;
+        this.creds = mission.credentials;
+        this.clients = mission.clients;
+        this.steps = mission.steps;
+        this.nmap = mission.nmap;
+        this.nessus = mission.nessus;
+        this.id = mission.id;
+      });
   }
 
   addCodiMd(form: NgForm): void {
-    this.missionsService.update(this.id, form.value).subscribe(
+    this.missionsService.update(this.id, form.value).then(
       () => {
         this.openSnackBar('codiMD updated');
         this.ngOnInit();
@@ -233,7 +232,7 @@ export class MissionSingleComponent implements OnInit {
         checked: false,
         mission: this.mission['@id'],
       })
-      .subscribe(
+      .then(
         () => {
           this.ngOnInit();
           form.reset();
@@ -255,7 +254,7 @@ export class MissionSingleComponent implements OnInit {
         mission: this.mission['@id'],
         createdAt: date,
       })
-      .subscribe(
+      .then(
         () => {
           this.ngOnInit();
           form.reset();
@@ -324,7 +323,7 @@ export class MissionSingleComponent implements OnInit {
   }
 
   exportData(): void {
-    this.missionsService.getDataById(this.id).subscribe((data) => {
+    this.missionsService.getDataById(this.id).then((data) => {
       this.exportDocument('mission', data);
     });
   }
